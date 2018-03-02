@@ -26,6 +26,9 @@
             </tr>
         </thead>
         <tbody>
+            <tr v-if="!currentPerformanceArray.length">
+                <td> </td><td> </td>
+            </tr>
             <tr v-for="currentPerformance in currentPerformanceArray" v-if="currentPerformance.id" :key="currentPerformance.id">
                 <td>{{ currentPerformance.tour_number }}</td><td>{{ currentPerformance.start_time }} ～ {{ currentPerformance.end_time }}</td>
             </tr>
