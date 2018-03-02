@@ -1,5 +1,5 @@
 <template><transition name="fadeup">
-<div v-if="currentPerformance.id" :class="[
+<div :class="[
     'container',
     'container-checkintime',
     `lang-${currentLang}`,
@@ -21,10 +21,10 @@
 
     <div class="tournumber">
         <h2>{{ locale.tourNumber[currentLang] }}</h2>
-        <h3>{{ currentPerformance.tour_number }}</h3>
+        <h3 v-if="currentPerformance && currentPerformance.tour_number">{{ currentPerformance.tour_number }}</h3>
     </div>
 
-    <div class="time">
+    <div class="time" v-if="currentPerformance && currentPerformance.start_time">
         <h2>{{ locale.entranceTime[currentLang] }}</h2>
         <h3>{{ currentPerformance.start_time }} ～ {{ currentPerformance.end_time }}</h3>
         <p>{{ locale.PleasePrepare[currentLang] }}</p>
@@ -152,7 +152,7 @@ export default {
         },
     },
     created() {
-        this.$store.commit('SET_LOADINGMSG', '初期化中(トップデッキレーン)');
+        this.$store.commit('SET_LOADINGMSG', '読み込み中');
         this.getCurrentPerformance().then(() => {
             this.$store.commit('CLEAR_LOADINGMSG');
             this.setFetchStatusDataInterval();

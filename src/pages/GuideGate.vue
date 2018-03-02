@@ -124,7 +124,7 @@ export default {
         },
     },
     created() {
-        this.$store.commit('SET_LOADINGMSG', '初期化中(トップデッキゲート)');
+        this.$store.commit('SET_LOADINGMSG', '読み込み中');
         this.getCurrentPerformance().then(() => {
             this.$store.commit('CLEAR_LOADINGMSG');
             this.setFetchStatusDataInterval();
