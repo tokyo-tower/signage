@@ -36,7 +36,7 @@
             <div class="qrguidesteps">
                 <div>
                     <h3>1.</h3>
-                    <p>{{ locale.scanBelowQr[currentLang] }}</p>
+                    <p v-html="locale.scanBelowQr[currentLang]"></p>
                     <figure class="qrimage" v-once>
                         <img class="langcontent langcontent-ja" src="/static/images/qr-inquiry-ja.svg" alt="https://reference.tokyotower.co.jp/inquiry/search">
                         <img class="langcontent langcontent-en" src="/static/images/qr-inquiry-en.svg" alt="https://reference.tokyotower.co.jp/inquiry/search?locale=en">
@@ -92,7 +92,7 @@ export default {
                     en: 'How to get your QR code for entrance',
                 },
                 scanBelowQr: {
-                    ja: '以下のQRコードからチケット紹介ページへ',
+                    ja: '以下のQRコードから<br>チケット紹介ページへ',
                     en: 'Go to the Check Ticket page by scanning the below QR code.',
                 },
                 enterNumbers: {
