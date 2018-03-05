@@ -38,7 +38,7 @@
             <tfoot>
                 <tr><td colspan="3">
                     <div v-for="(futureAvgStatus, nearIndex) in futureAvgStatusArray" :key="nearIndex"
-                    :class="['houritem', getStatusClassNameByPerformance($store.state.moment, futureAvgStatus, 10)]">
+                    :class="['houritem', getStatusClassNameByPerformance($store.state.moment, futureAvgStatus)]">
                         <p class="hours">{{ futureAvgStatus.hours }}</p>
                         <div class="wrapper-status">
                             <p class="status">{{ futureAvgStatus.seat_status }}</p>
@@ -200,10 +200,23 @@ export default {
                     // hourごとの performance の平均を求める
                     this.futureAvgStatusArray = futureHourArray.filter((h) => { return (typeof performancesByHour[h] === 'object'); }).map((hour) => {
                         // seat_status の平均(小数点切り捨て)の数字で⚪△×判定する
-                        const avgStatus = Math.floor((performancesByHour[hour].reduce((p, c) => { return (p + (+c.seat_status || 0)); }, 0) / performancesByHour[hour].length));
+                        // unavailable は0として集計。hour内全てが unavailable だった時は平均も unavailable (「-」) にする
+                        let allUnavailable = true;
+                        const avgStatus = Math.floor((performancesByHour[hour].reduce((p, c) => {
+                            if (!c.unavailable) {
+                                allUnavailable = false;
+                                let num = parseInt(c.seat_status, 10);
+                                if (isNaN(num)) {
+                                    num = 0;
+                                }
+                                return (p + num);
+                            }
+                            return p; // unavailable だったので seat_status を加算しない
+                        }, 0) / performancesByHour[hour].length));
                         return {
                             hours: `${hour}:00～${`0${(parseInt(hour, 10) + 1)}`.slice(1)}:00`,
                             seat_status: avgStatus,
+                            unavailable: allUnavailable,
                             is_avg: true,
                         };
                     });
@@ -448,16 +461,6 @@ export default {
             background-image: url(../assets/icon-status-crowded.svg);
         }
     }
-    // .item-last {
-    //     .status {
-    //         font-size: 3.4vw;
-    //     }
-    //     .status::before {
-    //         transform: scale(0.7);
-    //         vertical-align: bottom;
-    //         background-image: url(../assets/icon-status-last.svg);
-    //     }
-    // }
     .item-soldout {
         .wrapper-status {
             color: #fff;
@@ -466,7 +469,7 @@ export default {
             background-image: url(../assets/icon-status-soldout.svg);
         }
     }
-    .item-suspended {
+    .item-suspended, .item-unavailable {
         .status::before {
             background-image: url(../assets/icon-status-unavailable.svg);
         }

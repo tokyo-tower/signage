@@ -13,7 +13,8 @@ export function getNextTickUnixtime() {
 }
 
 // パフォーマンス情報を見てCSSクラス付与
-export function getStatusClassNameByPerformance(momentObj, performance, STATUS_THRESHOLD_RED) {
+const STATUS_THRESHOLD_CROWDED = 10; // 10未満なら△
+export function getStatusClassNameByPerformance(momentObj, performance) {
     if (performance.unavailable) {
         return 'item-unavailable'; // 「-」
     }
@@ -35,8 +36,8 @@ export function getStatusClassNameByPerformance(momentObj, performance, STATUS_T
 
     // 残数で分岐
     const num = parseInt(performance.seat_status, 10) || 0;
-    if (num <= STATUS_THRESHOLD_RED && num > 0) {
-        return `${className} item-last`;
+    if (num < STATUS_THRESHOLD_CROWDED && num > 0) {
+        return `${className} item-crowded`;
     } else if (num === 0) {
         return `${className} item-soldout`;
     }
