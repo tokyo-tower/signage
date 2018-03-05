@@ -47,6 +47,7 @@ export function getStatusClassNameByPerformance(momentObj, performance) {
 // APIからステータス取得
 export function fetchScheduleStatus(params) {
     const APPCONFIG = this.$store.state.APPCONFIG;
+    params.now = Date.now();
     return new Promise((resolve) => {
         axios.get(APPCONFIG.API_STATUS_ENDPOINT, {
             params,
