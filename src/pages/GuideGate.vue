@@ -11,7 +11,7 @@
     <header v-once>
         <div class="inner">
             <div class="iconwrapper">
-                <shine-icon class="logo"></shine-icon>
+                <shine-icon class="logo" targetEvent="langChanged"></shine-icon>
             </div>
             <div class="clockwrapper">
                 <clock class="icon-clock"></clock>
@@ -123,6 +123,7 @@ export default {
                 } else {
                     this.setChangeLangTimeout();
                 }
+                this.$emit('langChanged');
             }, (ms || 5000));
         },
     },

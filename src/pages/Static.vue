@@ -1,14 +1,16 @@
 <template><transition name="fadeup">
-<div :class="['container', 'container-sleep',
+<div :class="['container', 'container-static',
     {
         'container-vertical': ($route.meta.vertical),
+        'container-sleep': ($route.name.indexOf('sleep') !== -1),
         'container-suspend': ($route.name.indexOf('suspend') !== -1),
         'container-closed': ($route.name.indexOf('closed') !== -1),
+        'container-todaytdt': ($route.name.indexOf('todaytdt') !== -1),
     }
 ]">
-    <clock class="clock icon-clock" v-once></clock>
+    <clock v-if="!$route.meta.noclock" class="clock icon-clock" v-once></clock>
     <div class="content" v-once>
-        <h1><img class="logo" src="/static/images/logo-tdt.svg"></h1>
+        <h1><shine-icon class="logo" src="/static/images/logo-tdt.svg"></shine-icon></h1>
         <div class="suspendcontent message">
             <h2>現在、トップデッキツアーは<br class="verticalcontent">休止しております</h2>
             <h3>The Top Deck Tour <br class="verticalcontent">is currently suspended</h3>
@@ -17,17 +19,24 @@
             <h2>本日のトップデッキツアー<br class="verticalcontent">受付は終了いたしました</h2>
             <h3>The Top Deck Tour <br class="verticalcontent">is closed for the day</h3>
          </div>
+        <div class="todaytdtcontent message">
+            <h2>トップデッキツアー 本日のチケット</h2>
+            <h3>The Top Deck Tour Tickets for today<br>Top Deck Tour 当天的门票</h3>
+         </div>
     </div>
 </div>
 </transition></template>
 
 <script>
+/*
+  時計とロゴと文言だけの画面で共用
+*/
 export default {
 };
 </script>
 
 <style lang="scss" scoped>
-    .container-sleep {
+    .container-static {
         width: 100%;
         height: 100%;
         color: #fff;
@@ -67,38 +76,50 @@ export default {
     .logo {
         width: 230px; // 12vw;
         height: 230px; // 12vw;
-        margin: 116px auto 58px;
+        margin: 60px auto 72px;
     }
     h2 {
-        font-size: 48px; // 2.5vw;
         margin-bottom: 0.5em;
         letter-spacing: 2px;
     }
-    h3 {
-        font-size: 48px; //  2.5vw;
+
+    .message {
+        display: none;
+        h2,h3 {
+            font-size: 48px; // 2.5vw;
+        }
     }
 
-    .suspendcontent {
-        display: none;
+
+    .container-todaytdt {
+        .logo {
+            width: 300px;
+            height: 300px;
+            margin: 48px auto 96px;
+        }
+        .todaytdtcontent {
+            display: block;
+            h2, h3 {
+                font-size: 88px;
+            }
+        }
     }
+
+    .container-sleep {
+        .logo {
+            margin-top: 120px;
+        }
+    }
+
     .container-suspend {
         .suspendcontent {
             display: block;
         }
-        .logo {
-            margin-top: 58px; // 3vw;
-        }
     }
 
-    .closedcontent {
-        display: none;
-    }
     .container-closed {
         .closedcontent {
             display: block;
-            .logo {
-                margin-top: 58px; // 3vw;
-            }
         }
     }
 

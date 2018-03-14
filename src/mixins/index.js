@@ -99,7 +99,7 @@ export function manipulateScheduleData(scheduleArray, _options) {
             endDate: schedule.endDate,
             seat_status: schedule.remainingAttendeeCapacity,
             tour_number: schedule.tourNumber,
-            unavailable: (schedule.evServiceStatus === 'Suspended'),
+            unavailable: (schedule.evServiceStatus !== 'Normal' || schedule.onlineSalesStatus !== 'Normal'), // ※ 「オンライン販売を止めて現場でのみ売る」という運用は無い ( TTTS-393#comment-55927483 )
         };
     });
 }

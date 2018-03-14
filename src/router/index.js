@@ -15,11 +15,22 @@ const Router = new VueRouter({
             },
         },
         {
+            name: 'todaytdt',
+            path: '/todaytdt',
+            component: resolve => require(['../pages/Static'], resolve),
+            meta: {
+                group: '1fticket',
+                title: '東京タワー 「トップデッキツアー 本日のチケット」',
+                noclock: true,
+            },
+        },
+        {
             name: 'info',
             path: '/info',
             component: resolve => require(['../pages/Info'], resolve),
             meta: {
-                title: '東京タワー TDTチケット空き状況',
+                group: '1fticket',
+                title: '東京タワー トップデッキツアー チケット空き状況',
             },
         },
         {
@@ -27,6 +38,7 @@ const Router = new VueRouter({
             path: '/guide/lane',
             component: resolve => require(['../pages/GuideLane'], resolve),
             meta: {
+                group: 'lane',
                 title: '東京タワー 入場案内 トップデッキレーン',
                 vertical: true,
             },
@@ -36,57 +48,94 @@ const Router = new VueRouter({
             path: '/guide/gate',
             component: resolve => require(['../pages/GuideGate'], resolve),
             meta: {
+                group: 'gate',
                 title: '東京タワー 入場案内 トップデッキゲート',
             },
         },
         {
             name: 'suspend',
             path: '/suspend',
-            component: resolve => require(['../pages/Sleep'], resolve),
+            component: resolve => require(['../pages/Static'], resolve),
             meta: {
+                group: 'suspend',
                 title: '東京タワー トップデッキツアー休止中',
             },
         },
         {
             name: 'suspend.vertical',
             path: '/vertical/suspend',
-            component: resolve => require(['../pages/Sleep'], resolve),
+            component: resolve => require(['../pages/Static'], resolve),
             meta: {
-                title: '東京タワー トップデッキツアー休止中',
+                group: 'suspend',
+                title: '東京タワー トップデッキツアー休止中 (縦)',
+                vertical: true,
+            },
+        },
+        {
+            name: 'suspend.vertical',
+            path: '/vertical/suspend?rightTop=true',
+            component: resolve => require(['../pages/Static'], resolve),
+            meta: {
+                group: 'suspend',
+                title: '東京タワー トップデッキツアー休止中 (縦-右回転)',
                 vertical: true,
             },
         },
         {
             name: 'closed',
             path: '/closed',
-            component: resolve => require(['../pages/Sleep'], resolve),
+            component: resolve => require(['../pages/Static'], resolve),
             meta: {
+                group: 'closed',
                 title: '東京タワー トップデッキツアー受付終了',
             },
         },
         {
             name: 'closed.vertical',
             path: '/vertical/closed',
-            component: resolve => require(['../pages/Sleep'], resolve),
+            component: resolve => require(['../pages/Static'], resolve),
             meta: {
-                title: '東京タワー トップデッキツアー受付終了',
+                group: 'closed',
+                title: '東京タワー トップデッキツアー受付終了 (縦)',
+                vertical: true,
+            },
+        },
+        {
+            name: 'closed.vertical',
+            path: '/vertical/closed?rightTop=true',
+            component: resolve => require(['../pages/Static'], resolve),
+            meta: {
+                group: 'closed',
+                title: '東京タワー トップデッキツアー受付終了 (縦-右回転)',
                 vertical: true,
             },
         },
         {
             name: 'sleep',
             path: '/sleep',
-            component: resolve => require(['../pages/Sleep'], resolve),
+            component: resolve => require(['../pages/Static'], resolve),
             meta: {
+                group: 'sleep',
                 title: '東京タワー 営業時間外',
             },
         },
         {
             name: 'sleep.vertical',
             path: '/vertical/sleep',
-            component: resolve => require(['../pages/Sleep'], resolve),
+            component: resolve => require(['../pages/Static'], resolve),
             meta: {
-                title: '東京タワー 営業時間外',
+                group: 'sleep',
+                title: '東京タワー 営業時間外 (縦)',
+                vertical: true,
+            },
+        },
+        {
+            name: 'sleep.vertical',
+            path: '/vertical/sleep?rightTop=true',
+            component: resolve => require(['../pages/Static'], resolve),
+            meta: {
+                group: 'sleep',
+                title: '東京タワー 営業時間外 (縦-右回転)',
                 vertical: true,
             },
         },
@@ -94,13 +143,10 @@ const Router = new VueRouter({
 });
 
 Router.beforeEach((to, from, next) => {
-    // ページVueを遅延ロードにした場合はローディング出した方がよい？
-    // Store.commit('SET_LOADINGMSG', 'Loading...');
     window.document.title = to.meta.title;
     return next();
 });
 Router.afterEach(() => {
-    // ページ出たらローディングは消す
     Store.commit('CLEAR_LOADINGMSG');
 });
 export default Router;

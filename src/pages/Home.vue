@@ -1,33 +1,9 @@
 <template>
 <div class="content" v-once>
     <div class="menu">
-        <ul>
-            <li>[東京タワーサイネージ]
-                <ul>
-                    <li><router-link to="/info"><span>チケット空き状況画面</span></router-link></li>
-                </ul>
-                <ul>
-                    <li><router-link to="/guide/lane"><span>入場案内-トップデッキレーン</span></router-link></li>
-                    <li><router-link to="/guide/lane?rightTop=true"><span>入場案内-トップデッキレーン (右回転)</span></router-link></li>
-                </ul>
-                <ul>
-                    <li><router-link to="/guide/gate"><span>入場案内-トップデッキゲート</span></router-link></li>
-                </ul>
-                <ul>
-                    <li><router-link to="/suspend"><span>ツアー休止中</span></router-link></li>
-                    <li><router-link to="/vertical/suspend"><span>ツアー休止中(縦)</span></router-link></li>
-                    <li><router-link to="/vertical/suspend?rightTop=true"><span>ツアー休止中(縦-右回転)</span></router-link></li>
-                </ul>
-                <ul>
-                    <li><router-link to="/closed"><span>ツアー受付終了</span></router-link></li>
-                    <li><router-link to="/vertical/closed"><span>ツアー受付終了(縦)</span></router-link></li>
-                    <li><router-link to="/vertical/closed?rightTop=true"><span>ツアー受付終了(縦-右回転)</span></router-link></li>
-                </ul>
-                <ul>
-                    <li><router-link to="/sleep"><span>営業時間外</span></router-link></li>
-                    <li><router-link to="/vertical/sleep"><span>営業時間外(縦)</span></router-link></li>
-                    <li><router-link to="/vertical/sleep?rightTop=true"><span>営業時間外(縦-右回転)</span></router-link></li>
-                </ul>
+        <ul v-for="(pages, group) in pagesByGroup" :key="group">
+            <li v-for="page in pages" :key="page.path">
+                <router-link :to="page.path"><span>{{ page.title }}</span></router-link>
             </li>
         </ul>
     </div>
@@ -36,6 +12,21 @@
 
 <script>
 export default {
+    computed: {
+        // 全routeを分類ごとに分ける
+        pagesByGroup() {
+            const ret = {};
+            this.$router.options.routes.forEach((route) => {
+                if (!route.meta.group) { return true; }
+                ret[route.meta.group] = ret[route.meta.group] || [];
+                return ret[route.meta.group].push({
+                    title: route.meta.title.replace('東京タワー ', ''),
+                    path: route.path,
+                });
+            });
+            return ret;
+        },
+    },
 };
 </script>
 
@@ -54,9 +45,6 @@ export default {
                 &:hover {
                     text-decoration: underline;
                 }
-            }
-            ul {
-                font-size: 1em;
             }
         }
     }

@@ -5,7 +5,7 @@
     <div class="area area-info">
         <div class="mainvisual" v-once>
             <p>
-                <shine-icon></shine-icon>
+                <shine-icon targetEvent="langChanged"></shine-icon>
             </p>
         </div>
         <div class="prices">
@@ -19,7 +19,11 @@
     </div>
 
     <div class="area area-schedule">
-        <clock class="iconBefore icon-clock" v-once></clock>
+        <div class="header">
+            <span class="tdt">Top Deck Tour</span>
+            <span class="separator"></span>
+            <clock class="iconBefore icon-clock" v-once></clock>
+        </div>
         <table class="table-main">
             <thead>
                 <tr>
@@ -241,6 +245,7 @@ export default {
                 } else {
                     this.setChangeLangTimeout();
                 }
+                this.$emit('langChanged');
             }, (ms || 3000));
         },
     },
@@ -334,17 +339,45 @@ export default {
         opacity: 0.9;
     }
 
-    .clock {
-        font-size: 88px; // 4.6vw;
-        display: block;
-        text-align: center;
-        margin: 0;
+    .header {
+        display: table;
+        width: 100%;
         background-color: #2d2d2d;
         color: #fff;
-        height: 132px; // 7vw;
         position: relative;
         z-index: 16;
+        height: 132px; // 7vw;
+        .tdt {
+            display: table-cell;
+            vertical-align: middle;
+            font-size: 70px;
+            text-align: right;
+            width: 48%;
+        }
+        .separator {
+            display: table-cell;
+            width: 4%;
+            text-align: center;
+            vertical-align: middle;
+            &::after {
+                content: '';
+                display: inline-block;
+                height: 64%;
+                vertical-align: middle;
+                border-right: 1px solid #666;
+            }
+        }
+        .clock {
+            font-size: 88px; // 4.6vw;
+            display: table-cell;
+            text-align: left;
+            width: 48%;
+            margin: 0;
+        }
+
     }
+
+
     .icon-clock {
         &::before {
             width: 58px; // 3vw;
