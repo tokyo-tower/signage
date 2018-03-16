@@ -45,7 +45,7 @@ export default {
             if (!this.apng) { return false; }
             clearTimeout(this.timeout_resize);
             this.timeout_resize = setTimeout(() => {
-                // 表示中の静止画像(透明)と同じ大きさにする
+                // 表示中(透明)の静止画像と同じ大きさにする
                 const style = window.getComputedStyle(this.$refs.image, null);
                 const sizes = {
                     width: parseInt(style.width.replace('px', ''), 10),
@@ -74,25 +74,33 @@ export default {
                 }
             });
         },
+        // APNGの再生
         playAPNG() {
             this.ctxplayer.stop(); // 巻き戻し処理
             this.ctxplayer.play();
         },
-        // 初期化に失敗したらCanvasを消して静止画に切り替え
+        // Canvasを棄ててSVGの静止画像に切り替え
+        abandon() {
+            this.$refs.image.style.opacity = 1;
+            this.$refs.canvas.outerHTML = '';
+        },
+        // 静止画SVGの読み込みが終わったら初期化開始
         init() {
-            this.loadAPNG().then(() => {
+            if (this.$route.query.noshine) {
+                return this.abandon();
+            }
+            return this.loadAPNG().then(() => {
                 if (this.targetEvent) {
-                    this.$parent.$on('langChanged', this.playAPNG);
+                    this.$parent.$on(this.targetEvent, this.playAPNG);
                 } else {
                     this.ctxplayer.on('end', () => {
                         clearTimeout(this.timeout_play);
                         this.timeout_play = setTimeout(this.playAPNG, this.intervalMsIfNoEvent);
                     });
+                    this.playAPNG();
                 }
-                this.playAPNG();
             }).catch(() => {
-                this.$refs.image.style.opacity = 1;
-                this.$refs.canvas.outerHTML = '';
+                this.abandon();
             });
         },
     },
@@ -103,20 +111,23 @@ export default {
         window.removeEventListener('resize', this.resizeCanvas);
         clearTimeout(this.timeout_resize);
         clearTimeout(this.timeout_play);
-        this.$parent.$off('langChanged', this.playAPNG);
+        this.$parent.$off(this.targetEvent, this.playAPNG);
     },
 };
 </script>
 
 <style lang="scss">
 .shineicon {
+    pointer-events: none;
     position: relative;
     z-index: 8;
     overflow: hidden;
     width: 100%;
+    height: 100%;
     display: block;
     font-size: 0;
     margin: auto;
+    transform: translateZ(0);
     >img {
         position: absolute;
         top: 0;

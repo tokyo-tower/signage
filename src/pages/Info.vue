@@ -2,8 +2,8 @@
 <div :class="['container', 'container-ticketstatus', `lang-${currentLang}`, {'onerror': $store.state.errorMsgStr}]">
     <errorOneline v-if="$store.state.errorMsgStr" :errorMsgStr="`通信エラーが発生しています ${$store.state.errorMsgStr}`"></errorOneline>
 
-    <div class="area area-info">
-        <div class="mainvisual" v-once>
+    <div class="area area-info" v-once>
+        <div class="mainvisual">
             <p>
                 <shine-icon targetEvent="langChanged"></shine-icon>
             </p>
@@ -11,7 +11,11 @@
         <div class="prices">
             <section v-for="ticketinfo in ticketinfoArray" :key="ticketinfo.ticket_id">
                 <div>
-                    <h2>{{ ticketinfo[currentLang].name }}<span>({{ ticketinfo[currentLang].cap }})</span></h2>
+                    <h2>
+                        <span v-for="lang in langArray" :key="`ticketname_${lang}`" :class="`langcontent langcontent-${lang}`">{{ ticketinfo[lang].name }}</span>
+                    <span class="cap">
+                        <span v-for="lang in langArray" :key="`ticketcap_${lang}`" :class="`langcontent langcontent-${lang}`">{{ ticketinfo[lang].cap }}</span>
+                    </span></h2>
                     <p>{{ echoPrice(ticketinfo.price) }}</p>
                 </div>
             </section>
@@ -19,17 +23,23 @@
     </div>
 
     <div class="area area-schedule">
-        <div class="header">
+        <div class="header" v-once>
             <span class="tdt">Top Deck Tour</span>
             <span class="separator"></span>
-            <clock class="iconBefore icon-clock" v-once></clock>
+            <clock class="iconBefore icon-clock"></clock>
         </div>
         <table class="table-main">
-            <thead>
+            <thead v-once>
                 <tr>
-                    <th>{{ locale.tourNumber[currentLang] }}</th>
-                    <th class="time">{{ locale.entranceTime[currentLang] }}</th>
-                    <th>{{ locale.availability[currentLang] }}</th>
+                    <th>
+                        <span v-for="lang in langArray" :key="`tourNumber_${lang}`" :class="`langcontent langcontent-${lang}`">{{ locale.tourNumber[lang] }}</span>
+                    </th>
+                    <th class="time">
+                        <span v-for="lang in langArray" :key="`entranceTime_${lang}`" :class="`langcontent langcontent-${lang}`">{{ locale.entranceTime[lang] }}</span>
+                    </th>
+                    <th>
+                        <span v-for="lang in langArray" :key="`availability_${lang}`" :class="`langcontent langcontent-${lang}`">{{ locale.availability[lang] }}</span>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -238,6 +248,7 @@ export default {
         },
         setChangeLangTimeout(ms) {
             this.timeoutInstance_changeLang = setTimeout(() => {
+                this.$emit('langChanged');
                 this.currentLangIndex++;
                 if (this.currentLangIndex > this.langArray.length - 1) {
                     this.currentLangIndex = 0;
@@ -245,7 +256,6 @@ export default {
                 } else {
                     this.setChangeLangTimeout();
                 }
-                this.$emit('langChanged');
             }, (ms || 3000));
         },
     },
@@ -265,6 +275,22 @@ export default {
 </script>
 
 <style lang="scss">
+    .langcontent {
+        display: none;
+    }
+
+    $langArray:
+        'ja',
+        'en',
+        'zh-hans',
+    ;
+    @each $lang in $langArray {
+        .lang-#{$lang} {
+            .langcontent-#{$lang} {
+                display: inline;
+            }
+        }
+    }
 
 .container-ticketstatus {
     display: table;
@@ -321,7 +347,7 @@ export default {
             h2 {
                 font-size: 32px; // 1.6vw;
                 font-weight: normal;
-                span {
+                span.cap {
                     margin-left: 10px; // 0.5vw;
                 }
             }
