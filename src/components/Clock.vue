@@ -25,6 +25,7 @@ export default {
     methods: {
         getNextTickUnixtime,
         setTimeoutUpdateMoment() {
+            clearTimeout(this.timeoutInstance_updateMoment);
             this.timeoutInstance_updateMoment = setTimeout(() => {
                 this.moment_now = moment();
                 this.setTimeoutUpdateMoment();

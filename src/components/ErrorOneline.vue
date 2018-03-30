@@ -17,7 +17,7 @@ export default {
 
 <style lang="scss">
     .error-oneline {
-        background-color: yellow;
+        background-color: #ccc;
         border:1px solid #ccc;
         padding: 0 1em;
         font-weight: bold;

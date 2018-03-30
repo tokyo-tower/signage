@@ -241,12 +241,14 @@ export default {
             });
         },
         setFetchStatusDataTimeout() {
+            clearTimeout(this.timeoutInstance_IntervalFetch);
             this.timeoutInstance_IntervalFetch = setTimeout(async () => {
                 await this.updateStatus();
                 this.setFetchStatusDataTimeout();
             }, this.getNextTickUnixtime());
         },
         setChangeLangTimeout(ms) {
+            clearTimeout(this.timeoutInstance_changeLang);
             this.timeoutInstance_changeLang = setTimeout(() => {
                 this.$emit('langChanged');
                 this.currentLangIndex++;

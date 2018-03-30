@@ -108,6 +108,7 @@ export default {
             });
         },
         setFetchStatusDataInterval() {
+            clearTimeout(this.timeoutInstance_IntervalFetch);
             this.timeoutInstance_IntervalFetch = setTimeout(() => {
                 this.getCurrentPerformance().then(() => {
                     this.setFetchStatusDataInterval();
@@ -115,6 +116,7 @@ export default {
             }, this.getNextTickUnixtime());
         },
         setChangeLangTimeout(ms) {
+            clearTimeout(this.timeoutInstance_changeLang);
             this.timeoutInstance_changeLang = setTimeout(() => {
                 this.currentLangIndex++;
                 if (this.currentLangIndex > this.langArray.length - 1) {

@@ -93,14 +93,18 @@ export default {
 
     .container-todaytdt {
         .logo {
-            width: 300px;
-            height: 300px;
-            margin: 48px auto 96px;
+            width: 290px;
+            height: 290px;
+            margin: 96px auto 120px;
         }
         .todaytdtcontent {
             display: block;
-            h2, h3 {
+            h2 {
                 font-size: 88px;
+                margin-bottom: 0;
+            }
+            h3 {
+                font-size: 65px;
             }
         }
     }

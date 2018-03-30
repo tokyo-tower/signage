@@ -25,6 +25,9 @@ export default {
             return 'vertical';
         },
     },
+    beforeDestroy() {
+        this.$store.commit('CLEAR_LOADINGMSG');
+    },
 };
 
 </script>
