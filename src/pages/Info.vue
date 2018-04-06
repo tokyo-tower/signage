@@ -274,7 +274,7 @@ export default {
         this.updateStatus().then(() => {
             this.$store.commit('CLEAR_LOADINGMSG');
             this.setFetchStatusDataTimeout();
-            // this.setChangeLangTimeout(6000);
+            this.setChangeLangTimeout(6000);
         });
     },
     beforeDestroy() {
