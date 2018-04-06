@@ -13,9 +13,10 @@
                 <div>
                     <h2>
                         <span v-for="lang in langArray" :key="`ticketname_${lang}`" :class="`langcontent langcontent-${lang}`">{{ ticketinfo[lang].name }}</span>
-                    <span class="cap">
-                        <span v-for="lang in langArray" :key="`ticketcap_${lang}`" :class="`langcontent langcontent-${lang}`">{{ ticketinfo[lang].cap }}</span>
-                    </span></h2>
+                        <span class="cap">
+                            <span v-for="lang in langArray" :key="`ticketcap_${lang}`" :class="`langcontent langcontent-${lang}`">{{ ticketinfo[lang].cap }}</span>
+                        </span>
+                    </h2>
                     <p>{{ echoPrice(ticketinfo.price) }}</p>
                 </div>
             </section>
@@ -24,7 +25,9 @@
 
     <div class="area area-schedule">
         <div class="header" v-once>
-            <span class="tdt">Top Deck Tour</span>
+            <span class="tdt">
+                <span v-for="lang in langArray" :key="`tdt_${lang}`" :class="`langcontent langcontent-${lang}`">{{ locale.tdt[lang] }}</span>
+            </span>
             <span class="separator"></span>
             <clock class="iconBefore icon-clock"></clock>
         </div>
@@ -86,6 +89,11 @@ export default {
             ],
             currentLangIndex: 0,
             locale: {
+                tdt: {
+                    ja: 'トップデッキツアー',
+                    en: 'Top Deck Tour',
+                    'zh-hans': 'Top Deck Tour',
+                },
                 tourNumber: {
                     ja: 'ツアーNo',
                     en: 'Tour No.',
@@ -266,7 +274,7 @@ export default {
         this.updateStatus().then(() => {
             this.$store.commit('CLEAR_LOADINGMSG');
             this.setFetchStatusDataTimeout();
-            this.setChangeLangTimeout(6000);
+            // this.setChangeLangTimeout(6000);
         });
     },
     beforeDestroy() {
@@ -347,14 +355,14 @@ export default {
                 margin: 0;
             }
             h2 {
-                font-size: 32px; // 1.6vw;
+                font-size: 36px;
                 font-weight: normal;
                 span.cap {
                     margin-left: 10px; // 0.5vw;
                 }
             }
             p {
-                font-size: 38px; // 2vw;
+                font-size: 42px;
             }
         }
     }
@@ -374,13 +382,16 @@ export default {
         color: #fff;
         position: relative;
         z-index: 16;
-        height: 132px; // 7vw;
+        height: 160px;
         .tdt {
             display: table-cell;
             vertical-align: middle;
             font-size: 70px;
             text-align: right;
             width: 48%;
+            .langcontent-ja {
+                font-size: 64px;
+            }
         }
         .separator {
             display: table-cell;
@@ -396,9 +407,10 @@ export default {
             }
         }
         .clock {
-            font-size: 88px; // 4.6vw;
+            font-size: 96px;
             display: table-cell;
             text-align: left;
+            vertical-align: middle;
             width: 48%;
             margin: 0;
         }
@@ -439,8 +451,8 @@ export default {
         table-layout: fixed;
         border-spacing: 0;
         background-color: #fff;
-        padding-top: 132px; // 7vw;
-        margin-top: -132px; // -7vw;
+        padding-top: 160px;
+        margin-top: -160px;
         height: 100%;
         td {
             font-size: 64px; // 58px; // 3vw;
@@ -455,7 +467,7 @@ export default {
             background-color: #444;
             color: #fff;
             th {
-                font-size: 34px; // 1.8vw;
+                font-size: 40px;
                 font-weight: normal;
                 line-height: 2;
             }
@@ -493,16 +505,16 @@ export default {
             .hours {
                 background-color: #777;
                 margin: 0;
-                font-size: 34px; // 1.8vw;
-                line-height: 1.8;
+                font-size: 48px;
+                line-height: 1.5;
                 height: 64px; // 3.4vw;
             }
             .status {
                 height: 130px;
                 &::before {
                     vertical-align: middle;
-                    width: 76px; // 4vw;
-                    height: 76px; // 4vw;
+                    width: 84px;
+                    height: 84px;
                 }
             }
             .houritem:not(.item-last) .status::before {
