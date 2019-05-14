@@ -13,7 +13,7 @@ export function getNextTickUnixtime() {
 }
 
 // パフォーマンス情報を見てCSSクラス付与
-const STATUS_THRESHOLD_CROWDED = 10; // 10未満なら△
+const STATUS_THRESHOLD_CROWDED = 38; // 38未満なら△
 export function getStatusClassNameByPerformance(momentObj, performance) {
     if (performance.unavailable) {
         return 'item-unavailable'; // 「-」
