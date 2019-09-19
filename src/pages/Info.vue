@@ -113,7 +113,7 @@ export default {
             ticketinfoArray: [ // ※ダイナミックプライシング導入後はAPIから取得
                 {
                     ticket_id: '001',
-                    price: 2800,
+                    price: 3000,
                     ja: {
                         name: '大人',
                         cap: '高校生以上',
@@ -129,7 +129,7 @@ export default {
                 },
                 {
                     ticket_id: '002',
-                    price: 1800,
+                    price: 2000,
                     ja: {
                         name: '子供',
                         cap: '小・中学生',
@@ -145,7 +145,7 @@ export default {
                 },
                 {
                     ticket_id: '003',
-                    price: 1200,
+                    price: 1400,
                     ja: {
                         name: '幼児',
                         cap: '4歳以上',
