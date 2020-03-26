@@ -116,47 +116,63 @@ export default {
                     price: 3000,
                     ja: {
                         name: '大人',
-                        cap: '高校生以上',
+                        cap: '',
                     },
                     en: {
                         name: 'Adult',
-                        cap: '16 years or over',
+                        cap: '(over 18 years)',
                     },
                     'zh-hans': {
-                        name: '成人',
-                        cap: '16岁以上',
+                        name: '大人',
+                        cap: '(19岁以上)',
                     },
                 },
                 {
                     ticket_id: '002',
-                    price: 2000,
+                    price: 2800,
                     ja: {
-                        name: '子供',
-                        cap: '小・中学生',
+                        name: '高校生',
+                        cap: '',
                     },
                     en: {
-                        name: 'Junior',
-                        cap: '7 to 15 years',
+                        name: 'High School',
+                        cap: '(16-18 years)',
                     },
                     'zh-hans': {
-                        name: '儿童',
-                        cap: '7～15岁',
+                        name: '高中生',
+                        cap: '(16～18岁)',
                     },
                 },
                 {
                     ticket_id: '003',
+                    price: 2000,
+                    ja: {
+                        name: '子供',
+                        cap: '(小・中学生)',
+                    },
+                    en: {
+                        name: 'Junior',
+                        cap: '(7-15 years)',
+                    },
+                    'zh-hans': {
+                        name: '儿童',
+                        cap: '(7～15岁)',
+                    },
+                },
+                {
+                    ticket_id: '004',
                     price: 1400,
                     ja: {
                         name: '幼児',
-                        cap: '4歳以上',
+                        cap: '(4歳以上)',
                     },
                     en: {
                         name: 'Child',
-                        cap: '4 to 6 years',
+                        cap: '(4-6 years)',
                     },
                     'zh-hans': {
                         name: '幼儿',
-                        cap: '4～6岁',
+                        cap: '(4～6岁)',
                     },
                 },
             ],
@@ -328,7 +344,7 @@ export default {
         display: table;
         width: 100%;
         padding: 16%;
-        height: 46%;
+        // height: 46%;
         >p {
             vertical-align: middle;
             display: table-cell;
@@ -345,7 +361,7 @@ export default {
             padding: 1em;
             display: table;
             width: 100%;
-            height: 33.3%;
+            height: 25%;
             >div {
                 display: table-cell;
                 vertical-align: middle;
@@ -358,11 +374,22 @@ export default {
                 font-size: 36px;
                 font-weight: normal;
                 span.cap {
+                    font-size: 32px;
                     margin-left: 10px; // 0.5vw;
                 }
             }
             p {
                 font-size: 42px;
+            }
+        }
+    }
+    &.lang-en {
+        .prices section {
+            h2 {
+                span.cap {
+                    font-size: 26px;
+                    margin-left: 2px;
+                }
             }
         }
     }
