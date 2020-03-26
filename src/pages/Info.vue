@@ -343,8 +343,8 @@ export default {
     .mainvisual {
         display: table;
         width: 100%;
-        padding: 16%;
-        // height: 46%;
+        padding: 12%;
+        height: 44%;
         >p {
             vertical-align: middle;
             display: table-cell;
