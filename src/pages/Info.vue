@@ -198,7 +198,7 @@ export default {
         updateStatus() {
             return new Promise(async (resolve, reject) => {
                 try {
-                    const moment_start = moment().minute(0).second(0);
+                    const moment_start = moment().minute(0).second(0).milliseconds(0);
                     const scheduleArray = await this.fetchScheduleStatus({
                         startFrom: moment_start.toISOString(),
                         startThrough: moment_start.add(4, 'hour').minute(59).second(59).toISOString(),

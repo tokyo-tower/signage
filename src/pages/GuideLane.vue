@@ -117,7 +117,7 @@ export default {
         getCurrentPerformance() {
             return new Promise(async (resolve) => {
                 try {
-                    const moment_start = moment().minute(0).second(0);
+                    const moment_start = moment().minute(0).second(0).milliseconds(0);
                     const scheduleArray = await this.fetchScheduleStatus({
                         startFrom: moment_start.toISOString(),
                         startThrough: moment_start.minute(59).second(59).toISOString(),
