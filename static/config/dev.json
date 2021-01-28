@@ -1,4 +1,0 @@
-{
-  "API_STATUS_ENDPOINT": "https://ttts-api-production.azurewebsites.net/preview/performancesWithAggregation",
-  "API_TIMEOUT": "30000"
-}
