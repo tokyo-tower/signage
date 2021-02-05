@@ -29,7 +29,7 @@
             <tr v-if="!currentPerformanceArray.length">
                 <td> </td><td> </td>
             </tr>
-            <tr v-for="currentPerformance in currentPerformanceArray" v-if="currentPerformance.id" :key="currentPerformance.id">
+            <tr v-for="currentPerformance in currentPerformanceArray" :key="currentPerformance.id">
                 <td>{{ currentPerformance.tour_number }}</td><td>{{ currentPerformance.start_time }} ～ {{ currentPerformance.end_time }}</td>
             </tr>
         </tbody>
@@ -46,7 +46,7 @@
 
 <script>
 import * as moment from 'moment';
-import { fetchScheduleStatus, getNextTickUnixtime, manipulateScheduleData } from '../mixins';
+import { fetchScheduleStatus, getNextTickUnixtime, manipulateScheduleData } from '../mixins/index.ts';
 
 require('moment/locale/ja');
 
@@ -92,7 +92,7 @@ export default {
             return new Promise(async (resolve) => {
                 try {
                     const moment_start = moment().minute(0).second(0).milliseconds(0);
-                    const scheduleArray = await this.fetchScheduleStatus({
+                    const scheduleArray = await this.fetchScheduleStatus(this.$store, {
                         startFrom: moment_start.toISOString(),
                         startThrough: moment_start.minute(59).second(59).toISOString(),
                     });
