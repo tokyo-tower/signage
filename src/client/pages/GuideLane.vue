@@ -60,7 +60,7 @@
 
 <script>
 import * as moment from 'moment';
-import { fetchScheduleStatus, getNextTickUnixtime, manipulateScheduleData } from '../mixins';
+import { fetchScheduleStatus, getNextTickUnixtime, manipulateScheduleData } from '../mixins/index.ts';
 
 require('moment/locale/ja');
 
@@ -118,7 +118,7 @@ export default {
             return new Promise(async (resolve) => {
                 try {
                     const moment_start = moment().minute(0).second(0).milliseconds(0);
-                    const scheduleArray = await this.fetchScheduleStatus({
+                    const scheduleArray = await this.fetchScheduleStatus(this.$store, {
                         startFrom: moment_start.toISOString(),
                         startThrough: moment_start.minute(59).second(59).toISOString(),
                     });

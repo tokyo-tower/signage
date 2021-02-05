@@ -1,20 +1,30 @@
+import { factory } from '@cinerino/sdk';
 import * as axios from 'axios';
 import * as moment from 'moment';
 
 // PHPなどのsleepと同じ。UI表示調整用
-export function sleep(ms) {
+export function sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 // 現在時刻から次の更新時刻までのsetTimeout用msを得る
 export function getNextTickUnixtime() {
-    const now = new Date();
-    return new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), (now.getMinutes() + 1), 0, 0) - now;
+    const now = moment();
+    return moment(now.format('YYYYMMDD HHmm'), 'YYYYMMDD HHmm').add(1, 'minutes').diff(now, 'milliseconds');
 }
 
 // パフォーマンス情報を見てCSSクラス付与
 const STATUS_THRESHOLD_CROWDED = 38; // 38未満なら△
-export function getStatusClassNameByPerformance(momentObj, performance) {
+export function getStatusClassNameByPerformance(
+    momentObj: moment.Moment,
+    performance: {
+        is_avg: boolean;
+        start_time: string;
+        end_time: string;
+        seat_status: string;
+        unavailable: boolean;
+    }
+) {
     if (performance.unavailable) {
         return 'item-unavailable'; // 「-」
     }
@@ -45,48 +55,51 @@ export function getStatusClassNameByPerformance(momentObj, performance) {
 }
 
 // APIからステータス取得
-export function fetchScheduleStatus(params) {
-    const APPCONFIG = this.$store.state.APPCONFIG;
-    params.now = Date.now();
-    return new Promise((resolve) => {
-        axios.get(APPCONFIG.API_STATUS_ENDPOINT, {
-            params,
+export function fetchScheduleStatus(store: any, params: {
+    startFrom: string;
+    startThrough: string;
+}) {
+    const APPCONFIG = store.state.APPCONFIG;
+    return new Promise<factory.chevre.event.screeningEvent.IEvent[]>((resolve) => {
+        axios.default.get(APPCONFIG.API_STATUS_ENDPOINT, {
+            params: { ...params, now: Date.now() },
             timeout: APPCONFIG.API_TIMEOUT,
         }).then((res) => {
-            this.$store.commit('UPDATE_MOMENTOBJ');
+            store.commit('UPDATE_MOMENTOBJ');
             let errorMsg = '';
             if (!Array.isArray(res.data)) {
-                errorMsg = `(${this.$store.state.moment.format('HH:mm:ss')}) [取得データ異常]`;
+                errorMsg = `(${store.state.moment.format('HH:mm:ss')}) [取得データ異常]`;
             }
             if (errorMsg) {
-                this.$store.commit('SET_ERRORMSG', errorMsg);
+                store.commit('SET_ERRORMSG', errorMsg);
             } else {
-                this.$store.commit('CLEAR_ERRORMSG');
+                store.commit('CLEAR_ERRORMSG');
             }
-            return resolve(res.data.sort((a, b) => {
+            return resolve(res.data.sort((a: factory.chevre.event.screeningEvent.IEvent, b: factory.chevre.event.screeningEvent.IEvent) => {
                 if (a.startDate < b.startDate) { return -1; }
                 if (a.startDate > b.startDate) { return 1; }
                 return 0;
             }));
         }).catch((err) => {
             console.log(err);
-            this.$store.commit('UPDATE_MOMENTOBJ');
-            this.$store.commit('SET_ERRORMSG', `(${this.$store.state.moment.format('HH:mm:ss')}) [通信エラー][ステータス取得] ${err.message}`);
+            store.commit('UPDATE_MOMENTOBJ');
+            store.commit('SET_ERRORMSG', `(${store.state.moment.format('HH:mm:ss')}) [通信エラー][ステータス取得] ${err.message}`);
             return resolve([]);
         });
     });
 }
 
 // APIのレスポンスを整形
-export function manipulateScheduleData(scheduleArray, _options) {
+export function manipulateScheduleData(
+    scheduleArray: factory.chevre.event.screeningEvent.IEvent[],
+    options?: { setGateEndTime: boolean; }) {
     if (!Array.isArray(scheduleArray)) {
         return [];
     }
-    const options = _options || {};
     return scheduleArray.map((schedule) => {
         const moment_startDate = moment(schedule.startDate);
         const moment_endDate = moment(schedule.endDate);
-        if (options.setGateEndTime) {
+        if (options !== undefined && options.setGateEndTime) {
             moment_endDate.add(5, 'minute');
         }
         return {
@@ -98,8 +111,8 @@ export function manipulateScheduleData(scheduleArray, _options) {
             startDate: schedule.startDate,
             endDate: schedule.endDate,
             seat_status: schedule.remainingAttendeeCapacity,
-            tour_number: schedule.tourNumber,
-            unavailable: (schedule.evServiceStatus !== 'Normal' || schedule.onlineSalesStatus !== 'Normal'), // ※ 「オンライン販売を止めて現場でのみ売る」という運用は無い ( TTTS-393#comment-55927483 )
+            tour_number: (<any>schedule).tourNumber,
+            unavailable: ((<any>schedule).evServiceStatus !== 'Normal' || (<any>schedule).onlineSalesStatus !== 'Normal'), // ※ 「オンライン販売を止めて現場でのみ売る」という運用は無い ( TTTS-393#comment-55927483 )
         };
     });
 }

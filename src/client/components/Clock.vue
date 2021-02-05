@@ -4,7 +4,7 @@
 
 <script>
 import moment from 'moment';
-import { getNextTickUnixtime } from '../mixins';
+import { getNextTickUnixtime } from '../mixins/index.ts';
 
 
 export default {

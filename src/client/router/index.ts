@@ -9,7 +9,8 @@ const Router = new VueRouter({
         {
             name: 'home',
             path: '/',
-            component: resolve => require(['../pages/Home'], resolve),
+            // component: resolve => require(['../pages/Home'], resolve),
+            component: require('../pages/Home').default,
             meta: {
                 title: '東京タワー サイネージ画面一覧',
             },
@@ -17,7 +18,8 @@ const Router = new VueRouter({
         {
             name: 'todaytdt',
             path: '/todaytdt',
-            component: resolve => require(['../pages/Static'], resolve),
+            // component: resolve => require(['../pages/Static'], resolve),
+            component: require('../pages/Static').default,
             meta: {
                 group: '1fticket',
                 title: '東京タワー 「トップデッキツアー 本日のチケット」',
@@ -27,7 +29,8 @@ const Router = new VueRouter({
         {
             name: 'info',
             path: '/info',
-            component: resolve => require(['../pages/Info'], resolve),
+            // component: resolve => require(['../pages/Info'], resolve),
+            component: require('../pages/Info').default,
             meta: {
                 group: '1fticket',
                 title: '東京タワー トップデッキツアー チケット空き状況',
@@ -36,7 +39,8 @@ const Router = new VueRouter({
         {
             name: 'guide_lane',
             path: '/guide/lane',
-            component: resolve => require(['../pages/GuideLane'], resolve),
+            // component: resolve => require(['../pages/GuideLane'], resolve),
+            component: require('../pages/GuideLane').default,
             meta: {
                 group: 'lane',
                 title: '東京タワー 入場案内 トップデッキレーン',
@@ -46,7 +50,8 @@ const Router = new VueRouter({
         {
             name: 'guide_gate',
             path: '/guide/gate',
-            component: resolve => require(['../pages/GuideGate'], resolve),
+            // component: resolve => require(['../pages/GuideGate'], resolve),
+            component: require('../pages/GuideGate').default,
             meta: {
                 group: 'gate',
                 title: '東京タワー 入場案内 トップデッキゲート',
@@ -55,7 +60,8 @@ const Router = new VueRouter({
         {
             name: 'suspend',
             path: '/suspend',
-            component: resolve => require(['../pages/Static'], resolve),
+            // component: resolve => require(['../pages/Static'], resolve),
+            component: require('../pages/Static').default,
             meta: {
                 group: 'suspend',
                 title: '東京タワー トップデッキツアー休止中',
@@ -64,7 +70,8 @@ const Router = new VueRouter({
         {
             name: 'suspend.vertical',
             path: '/vertical/suspend',
-            component: resolve => require(['../pages/Static'], resolve),
+            // component: resolve => require(['../pages/Static'], resolve),
+            component: require('../pages/Static').default,
             meta: {
                 group: 'suspend',
                 title: '東京タワー トップデッキツアー休止中 (縦)',
@@ -74,7 +81,8 @@ const Router = new VueRouter({
         {
             name: 'suspend.vertical',
             path: '/vertical/suspend?rightTop=true',
-            component: resolve => require(['../pages/Static'], resolve),
+            // component: resolve => require(['../pages/Static'], resolve),
+            component: require('../pages/Static').default,
             meta: {
                 group: 'suspend',
                 title: '東京タワー トップデッキツアー休止中 (縦-右回転)',
@@ -84,7 +92,8 @@ const Router = new VueRouter({
         {
             name: 'closed',
             path: '/closed',
-            component: resolve => require(['../pages/Static'], resolve),
+            // component: resolve => require(['../pages/Static'], resolve),
+            component: require('../pages/Static').default,
             meta: {
                 group: 'closed',
                 title: '東京タワー トップデッキツアー受付終了',
@@ -93,7 +102,8 @@ const Router = new VueRouter({
         {
             name: 'closed.vertical',
             path: '/vertical/closed',
-            component: resolve => require(['../pages/Static'], resolve),
+            // component: resolve => require(['../pages/Static'], resolve),
+            component: require('../pages/Static').default,
             meta: {
                 group: 'closed',
                 title: '東京タワー トップデッキツアー受付終了 (縦)',
@@ -103,7 +113,8 @@ const Router = new VueRouter({
         {
             name: 'closed.vertical',
             path: '/vertical/closed?rightTop=true',
-            component: resolve => require(['../pages/Static'], resolve),
+            // component: resolve => require(['../pages/Static'], resolve),
+            component: require('../pages/Static').default,
             meta: {
                 group: 'closed',
                 title: '東京タワー トップデッキツアー受付終了 (縦-右回転)',
@@ -113,7 +124,8 @@ const Router = new VueRouter({
         {
             name: 'sleep',
             path: '/sleep',
-            component: resolve => require(['../pages/Static'], resolve),
+            // component: resolve => require(['../pages/Static'], resolve),
+            component: require('../pages/Static').default,
             meta: {
                 group: 'sleep',
                 title: '東京タワー 営業時間外',
@@ -122,7 +134,8 @@ const Router = new VueRouter({
         {
             name: 'sleep.vertical',
             path: '/vertical/sleep',
-            component: resolve => require(['../pages/Static'], resolve),
+            // component: resolve => require(['../pages/Static'], resolve),
+            component: require('../pages/Static').default,
             meta: {
                 group: 'sleep',
                 title: '東京タワー 営業時間外 (縦)',
@@ -132,7 +145,8 @@ const Router = new VueRouter({
         {
             name: 'sleep.vertical',
             path: '/vertical/sleep?rightTop=true',
-            component: resolve => require(['../pages/Static'], resolve),
+            // component: resolve => require(['../pages/Static'], resolve),
+            component: require('../pages/Static').default,
             meta: {
                 group: 'sleep',
                 title: '東京タワー 営業時間外 (縦-右回転)',
@@ -142,7 +156,7 @@ const Router = new VueRouter({
     ],
 });
 
-Router.beforeEach((to, from, next) => {
+Router.beforeEach((to, _from, next) => {
     window.document.title = to.meta.title;
     return next();
 });
