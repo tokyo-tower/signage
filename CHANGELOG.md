@@ -12,6 +12,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
-## 1.1.0 - 2020-01-28
+## 1.3.0 - 2020-02-05
+### Added
+ - typescript導入
+
+## 1.2.0 - 2020-01-28
 ### Added
  - node.js導入
