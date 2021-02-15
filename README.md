@@ -10,8 +10,15 @@
 ※値は全て必須で空のものがあるとエラー終了
 | Name                                   | Required | Purpose                               |
 | -------------------------------------  | -------- | ------------------------------------- |
-| `API_STATUS_ENDPOINT`                  | true     | 現況APIエンドポイント                      |
-| `API_TIMEOUT`                          | true     | APIタイムアウト時間(ms)                   |
+| `API_ENDPOINT`                         | true     | APIエンドポイント                      |
+| `API_STATUS_ENDPOINT`                  | true     | 現況APIエンドポイント                  |
+| `API_TIMEOUT`                          | true     | APIタイムアウト時間(ms)                |
+| `CLIENT_CREDENTIALS_CLIENT_ID`         | true     | CLIENT ID                             |
+| `CLIENT_CREDENTIALS_CLIENT_SECRET`     | true     | CLIENT SECRET                         |
+| `CLIENT_CREDENTIALS_DOMAIN`            | true     | DOMAIN                                |
+| `PROJECT_ID`                           | true     | プロジェクトID                         |
+| `CHANGE_SCALE`                         | false    | スケール変更                           |
+
 
 ### その他
 `/toRootDir`に入れたファイルはドキュメントルートになる`dist`にそのままコピーされる (Web.configなど必要ならここに入れる)

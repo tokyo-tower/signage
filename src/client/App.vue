@@ -1,9 +1,3 @@
-<script lang="ts">
-import Vue from 'vue';
-
-export default Vue.extend({
-});
-</script>
 
 <template>
 
@@ -16,8 +10,10 @@ export default Vue.extend({
 
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
     components: {
         Loading: require('./components/Loading.vue').default,
     },
@@ -35,7 +31,7 @@ export default {
     beforeDestroy() {
         this.$store.commit('CLEAR_LOADINGMSG');
     },
-};
+});
 
 </script>
 
