@@ -27,12 +27,14 @@
 </div>
 </transition></template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
+
 /*
   時計とロゴと文言だけの画面で共用
 */
-export default {
-};
+export default Vue.extend({
+});
 </script>
 
 <style lang="scss" scoped>

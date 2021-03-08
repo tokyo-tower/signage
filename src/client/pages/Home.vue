@@ -10,24 +10,10 @@
 </div>
 </template>
 
-<script>
-export default {
-    computed: {
-        // 全routeを分類ごとに分ける
-        pagesByGroup() {
-            const ret = {};
-            this.$router.options.routes.forEach((route) => {
-                if (!route.meta.group) { return true; }
-                ret[route.meta.group] = ret[route.meta.group] || [];
-                return ret[route.meta.group].push({
-                    title: route.meta.title.replace('東京タワー ', ''),
-                    path: route.path,
-                });
-            });
-            return ret;
-        },
-    },
-};
+<script lang="ts">
+import Home from './Home';
+
+export default Home;
 </script>
 
 <style lang="scss" scoped>

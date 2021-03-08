@@ -62,13 +62,16 @@ router.get('/health', (_req, res) => {
     res.send(`${httpStatus.OK} ${httpStatus[200]}`);
 });
 /**
- * ヘルスチェック
+ * 設定取得
  */
 router.get('/config', (_req, res) => {
     res.json({
         ENV: process.env.APP_ENV,
+        API_ENDPOINT: process.env.API_ENDPOINT,
         API_STATUS_ENDPOINT: process.env.API_STATUS_ENDPOINT,
         API_TIMEOUT: process.env.API_TIMEOUT,
+        CHANGE_SCALE: process.env.CHANGE_SCALE,
+        PROJECT_ID: process.env.PROJECT_ID,
     });
 });
 exports.utilRouter = router;
