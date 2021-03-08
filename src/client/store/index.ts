@@ -4,11 +4,28 @@ import Vuex from 'vuex';
 import * as axios from 'axios';
 import * as moment from 'moment';
 
+export interface IAppConfig {
+    API_ENDPOINT?: string;
+    API_STATUS_ENDPOINT?: string;
+    API_TIMEOUT: string;
+    ENV?: 'development' | 'test' | 'production';
+    CHANGE_SCALE?: 'auto';
+    PROJECT_ID?: string;
+}
+
+export interface IState {
+    moment: moment.Moment;
+    APPCONFIG?: IAppConfig;
+    errorMsgStr: string;
+    loadingMsg: string;
+    scheduleStatus: any[];
+}
+
 Vue.use(Vuex);
 
 const isProduction = (process.env.NODE_ENV === 'production');
 
-export default new Vuex.Store({
+export default new Vuex.Store<IState>({
     strict: !isProduction,
 
     // plugins: [createPersistedState({ storage: window.sessionStorage })],
@@ -18,7 +35,7 @@ export default new Vuex.Store({
 
     state: {
         moment: moment(),
-        APPCONFIG: {},
+        // APPCONFIG: {},
         // token: '',
         // lang: 'ja',
         errorMsgStr: '',
@@ -27,7 +44,7 @@ export default new Vuex.Store({
     },
 
     mutations: {
-        SET_APPCONFIG(state, config) {
+        SET_APPCONFIG(state, config: IAppConfig) {
             state.APPCONFIG = config;
         },
 
@@ -58,11 +75,15 @@ export default new Vuex.Store({
 
     actions: {
         FETCH_APPCONFIG({ commit }) {
-            return new Promise(async (resolve, reject) => {
+            return new Promise<IAppConfig>(async (resolve, reject) => {
                 const url = '/api/config';
-                axios.default.get(url).then((res) => {
-                    if (typeof res.data !== 'object' || Object.keys(res.data).some((key) => { return (!res.data[key] || !res.data[key][0]); })) {
+                axios.default.get<IAppConfig>(url).then((res) => {
+                    if (typeof res.data !== 'object'
+                        || res.data.API_ENDPOINT === undefined) {
                         return reject();
+                    }
+                    if (res.data.API_TIMEOUT === undefined) {
+                        res.data.API_TIMEOUT = '30000';
                     }
                     commit('SET_APPCONFIG', (res.data));
                     return resolve(res.data);

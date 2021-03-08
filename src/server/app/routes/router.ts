@@ -32,7 +32,7 @@ export default (app: express.Application) => {
             next();
             return;
         }
-        res.sendFile(path.resolve(`${__dirname}/../../../client/index.html`));
+        res.sendFile(path.resolve(`${__dirname}/../../../client/index.html`), { lastModified: false, etag: false });
     });
 
     app.all('*', (req, res, _next) => {
