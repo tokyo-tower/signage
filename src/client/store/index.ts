@@ -6,6 +6,7 @@ import * as moment from 'moment';
 
 export interface IAppConfig {
     API_ENDPOINT?: string;
+    SMART_THEATER_API_ENDPOINT?: string;
     API_STATUS_ENDPOINT?: string;
     API_TIMEOUT: string;
     ENV?: 'development' | 'test' | 'production';

@@ -13,6 +13,7 @@ exports.authorizeRouter = void 0;
 /**
  * 認証API
  */
+const axios_1 = require("axios");
 const debug = require("debug");
 const express = require("express");
 const base_1 = require("../../functions/base");
@@ -21,14 +22,13 @@ const router = express.Router();
 const log = debug('application: /api/authorize');
 /**
  * 認証情報取得
+ * @deprecated
  */
-router.post('/getCredentials', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    log('getCredentials', req.body.member);
+router.post('/getCredentials', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    log('getCredentials');
     try {
         let authModel;
-        let userName;
         const endpoint = process.env.API_ENDPOINT;
-        const waiterServerUrl = process.env.WAITER_SERVER_URL;
         authModel = new auth_model_1.AuthModel();
         const options = {
             endpoint,
@@ -36,11 +36,36 @@ router.post('/getCredentials', (req, res) => __awaiter(void 0, void 0, void 0, f
         };
         const accessToken = yield options.auth.getAccessToken();
         const expiryDate = options.auth.credentials.expiry_date;
-        if (req.body.member === '1') {
-            userName = options.auth.verifyIdToken({}).getUsername();
-        }
         const clientId = options.auth.options.clientId;
-        res.json({ accessToken, expiryDate, userName, clientId, endpoint, waiterServerUrl });
+        res.json({ accessToken, expiryDate, clientId, endpoint, });
+    }
+    catch (error) {
+        base_1.errorProsess(res, error);
+    }
+}));
+/**
+ * 認証情報取得
+ */
+router.post('/getToken', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    log('getToken', req.body.member);
+    try {
+        const clientCredentials = {
+            domain: process.env.CLIENT_CREDENTIALS_DOMAIN,
+            clientId: process.env.CLIENT_CREDENTIALS_CLIENT_ID,
+            clientSecret: process.env.CLIENT_CREDENTIALS_CLIENT_SECRET,
+        };
+        const url = `https://${clientCredentials.domain}/oauth2/token`;
+        const params = new URLSearchParams();
+        params.append('grant_type', 'client_credentials');
+        const response = yield axios_1.default.post(url, params, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization: `Basic ${Buffer.from(`${clientCredentials.clientId}:${clientCredentials.clientSecret}`, 'utf-8').toString('base64')}`,
+            },
+        });
+        const accessToken = response.data.access_token;
+        const expiryDate = ((new Date()).getTime() + (response.data.expires_in * 1000));
+        res.json({ accessToken, expiryDate });
     }
     catch (error) {
         base_1.errorProsess(res, error);

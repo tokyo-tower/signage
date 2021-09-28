@@ -138,14 +138,14 @@ export default Vue.extend({
     updateStatus() {
       return new Promise<void>(async (resolve, reject) => {
         try {
-          const moment_start = moment().minute(0).second(0).milliseconds(0);
           const scheduleArray = await this.fetchScheduleStatus(this.$store, {
-            startFrom: moment_start.toDate(),
-            startThrough: moment_start
-              .add(4, "hour")
-              .minute(59)
-              .second(59)
-              .toDate(),
+            day: moment().minute(0).second(0).milliseconds(0).format('YYYYMMDD'),
+            // startFrom: moment_start.toDate(),
+            // startThrough: moment_start
+            //   .add(4, "hour")
+            //   .minute(59)
+            //   .second(59)
+            //   .toDate(),
           });
 
           const currentHour = moment().hour();
