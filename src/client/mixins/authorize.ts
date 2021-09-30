@@ -1,41 +1,57 @@
-import * as cinerino from '@cinerino/sdk';
-import * as axios from 'axios';
-import { IAppConfig } from '../store';
+import axios from 'axios';
+import moment from 'moment';
+import { sleep } from './util';
 
-// 認証情報取得
-export async function getCredentials(appConfig: IAppConfig): Promise<{
+export interface ISmartTheaterCredentials {
     accessToken: string;
     expiryDate: number;
     clientId: string;
-    endpoint: string;
-}> {
-    const res = await axios.default.post('/api/authorize/getCredentials', {}, {
-        timeout: Number(appConfig.API_TIMEOUT),
-    });
-    return res.data;
 }
 
+let smartTheaterCredentials: ISmartTheaterCredentials;
+
 /**
- * API設定
+ * 認証情報取得
  */
-export async function createOption(appConfig: IAppConfig) {
-    const credentials = await getCredentials(appConfig);
-    const option = {
-        domain: '',
-        clientId: credentials.clientId,
-        redirectUri: '',
-        logoutUri: '',
-        responseType: '',
-        scope: '',
-        state: '',
-        nonce: null,
-        tokenIssuer: ''
-    };
-    const auth = cinerino.createAuthInstance(option);
-    auth.setCredentials(credentials);
-    return {
-        endpoint: credentials.endpoint,
-        auth,
-        project: { id: appConfig.PROJECT_ID }
-    };
-}
+ export const getCredentials = async () => {
+    try {
+        // eslint-disable-next-line prettier/prettier
+        if (smartTheaterCredentials !== undefined && smartTheaterCredentials.expiryDate !== undefined) {
+            const { expiryDate } = smartTheaterCredentials;
+            const isTokenExpired =
+                expiryDate !== undefined
+                    ? moment(expiryDate)
+                          .add(-5, 'minutes')
+                          .unix() <= moment().unix()
+                    : false;
+            if (!isTokenExpired) {
+                // 期限が5分以上あるならアクセストークン更新しない
+                return smartTheaterCredentials;
+            }
+        }
+        const url = '/api/authorize/getToken';
+        const limit = 5;
+        let count = 0;
+        let loop = true;
+        while (loop) {
+            loop = false;
+            try {
+                const result = (await axios.post<{ accessToken: string; expiryDate: number; clientId: string; }>(url)).data;
+                smartTheaterCredentials = result;
+                break;
+            } catch (error) {
+                if (error.status !== undefined && error.status >= 500) {
+                    loop = count < limit;
+                    count++;
+                    await sleep(20000);
+                    continue;
+                }
+                throw error;
+            }
+        }
+        return smartTheaterCredentials;
+    } catch (e) {
+        console.log('[catched][getCredentials]', e);
+        throw typeof e === 'string' ? new Error(`Auth Error: ${e}`) : e;
+    }
+};

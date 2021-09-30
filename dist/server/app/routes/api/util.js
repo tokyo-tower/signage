@@ -72,6 +72,7 @@ router.get('/config', (_req, res) => {
         API_TIMEOUT: process.env.API_TIMEOUT,
         CHANGE_SCALE: process.env.CHANGE_SCALE,
         PROJECT_ID: process.env.PROJECT_ID,
+        SMART_THEATER_API_ENDPOINT: process.env.SMART_THEATER_API_ENDPOINT,
     });
 });
 exports.utilRouter = router;

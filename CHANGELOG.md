@@ -12,6 +12,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 2.0.0 - 2020-09-30
+### Changed
+ - スマートシアターAPIでの再実装
+
 ## 1.4.0 - 2020-03-08
 ### Changed
  - CinerinoSDKへ変更
