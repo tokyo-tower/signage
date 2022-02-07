@@ -5,7 +5,7 @@ import axios from 'axios';
 import * as debug from 'debug';
 import * as express from 'express';
 import { errorProsess } from '../../functions/base';
-import { AuthModel } from '../../models/auth/auth.model';
+// import { AuthModel } from '../../models/auth/auth.model';
 const router = express.Router();
 const log = debug('application: /api/authorize');
 
@@ -13,29 +13,29 @@ const log = debug('application: /api/authorize');
  * 認証情報取得
  * @deprecated
  */
-router.post('/getCredentials', async (_req, res) => {
-    log('getCredentials');
-    try {
-        let authModel;
-        const endpoint = <string>process.env.API_ENDPOINT;
-        authModel = new AuthModel();
-        const options = {
-            endpoint,
-            auth: authModel.create()
-        };
-        const accessToken = await options.auth.getAccessToken();
-        const expiryDate = options.auth.credentials.expiry_date;
-        const clientId = options.auth.options.clientId;
-        res.json({ accessToken, expiryDate, clientId, endpoint, });
-    } catch (error) {
-        errorProsess(res, error);
-    }
-});
+// router.post('/getCredentials', async (_req, res) => {
+//     log('getCredentials');
+//     try {
+//         let authModel;
+//         const endpoint = <string>process.env.API_ENDPOINT;
+//         authModel = new AuthModel();
+//         const options = {
+//             endpoint,
+//             auth: authModel.create()
+//         };
+//         const accessToken = await options.auth.getAccessToken();
+//         const expiryDate = options.auth.credentials.expiry_date;
+//         const clientId = options.auth.options.clientId;
+//         res.json({ accessToken, expiryDate, clientId, endpoint, });
+//     } catch (error) {
+//         errorProsess(res, error);
+//     }
+// });
 
 /**
  * 認証情報取得
  */
- router.post('/getToken', async (req, res) => {
+router.post('/getToken', async (req, res) => {
     log('getToken', req.body.member);
     try {
         const clientCredentials = {

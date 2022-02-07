@@ -30,7 +30,6 @@
         "version": "git add -A"
     },
     "dependencies": {
-        "@cinerino/sdk": "^1.20.4",
         "apng-js": "^1.0.4",
         "axios": "^0.21.1",
         "basic-auth": "^2.0.1",

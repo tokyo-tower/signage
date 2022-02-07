@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Changed
 
+- @cinerino/sdkへの依存を排除
+
 ### Fixed
 
 ### Security
