@@ -69,6 +69,8 @@ router.get('/config', (_req, res) => {
         ENV: process.env.APP_ENV,
         // API_ENDPOINT: process.env.API_ENDPOINT,
         // API_STATUS_ENDPOINT: process.env.API_STATUS_ENDPOINT,
+        API_ENDPOINT: 'https://example.com',
+        API_STATUS_ENDPOINT: 'https://example.com',
         API_TIMEOUT: process.env.API_TIMEOUT,
         CHANGE_SCALE: process.env.CHANGE_SCALE,
         PROJECT_ID: process.env.PROJECT_ID,
