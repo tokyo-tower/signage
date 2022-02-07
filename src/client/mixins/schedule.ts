@@ -91,9 +91,9 @@ export async function fetchScheduleStatus(
 ) {
     try {
         const APPCONFIG: IAppConfig = store.state.APPCONFIG;
-        if (APPCONFIG.API_STATUS_ENDPOINT === undefined) {
-            new Error("API_STATUS_ENDPOINT undefined");
-        }
+        // if (APPCONFIG.API_STATUS_ENDPOINT === undefined) {
+        //     new Error("API_STATUS_ENDPOINT undefined");
+        // }
 
         const credentials = await getCredentials();
         const accessToken = credentials.accessToken;

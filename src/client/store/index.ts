@@ -5,9 +5,9 @@ import * as axios from 'axios';
 import * as moment from 'moment';
 
 export interface IAppConfig {
-    API_ENDPOINT?: string;
+    // API_ENDPOINT?: string;
     SMART_THEATER_API_ENDPOINT?: string;
-    API_STATUS_ENDPOINT?: string;
+    // API_STATUS_ENDPOINT?: string;
     API_TIMEOUT: string;
     ENV?: 'development' | 'test' | 'production';
     CHANGE_SCALE?: 'auto';
@@ -79,8 +79,11 @@ export default new Vuex.Store<IState>({
             return new Promise<IAppConfig>(async (resolve, reject) => {
                 const url = '/api/config';
                 axios.default.get<IAppConfig>(url).then((res) => {
-                    if (typeof res.data !== 'object'
-                        || res.data.API_ENDPOINT === undefined) {
+                    // if (typeof res.data !== 'object'
+                    //     || res.data.API_ENDPOINT === undefined) {
+                    //     return reject();
+                    // }
+                    if (typeof res.data !== 'object') {
                         return reject();
                     }
                     if (res.data.API_TIMEOUT === undefined) {
