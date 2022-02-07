@@ -27,6 +27,6 @@ exports.default = (req, res, next) => {
         next();
         return;
     }
-    res.setHeader('WWW-Authenticate', 'Basic realm="SSKTS Authentication"');
+    res.setHeader('WWW-Authenticate', 'Basic realm="Authentication"');
     res.status(http_status_1.UNAUTHORIZED).end('Unauthorized');
 };

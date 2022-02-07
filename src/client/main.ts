@@ -30,3 +30,5 @@ Store.dispatch('FETCH_APPCONFIG').then((APPCONFIG: IAppConfig) => {
 }).catch(() => {
     return alert('CONFIG LOAD ERROR');
 });
+
+util.checkVersion();
