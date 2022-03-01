@@ -53,10 +53,8 @@ export default Vue.extend({
         getCurrentPerformance() {
             return new Promise<void>(async (resolve) => {
                 try {
-                    const moment_start = moment().minute(0).second(0).milliseconds(0);
                     const scheduleArray = await this.fetchScheduleStatus(this.$store, {
-                        startFrom: moment_start.toDate(),
-                        startThrough: moment_start.minute(59).second(59).toDate(),
+                        day: moment().minute(0).second(0).milliseconds(0).format('YYYYMMDD'),
                     });
                     this.currentPerformanceArray = this.manipulateScheduleData(
                         scheduleArray,

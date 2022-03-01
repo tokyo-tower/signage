@@ -1,3 +1,4 @@
+import axios from "axios";
 
 /**
  * スケール変更
@@ -30,4 +31,23 @@ export function changeScale() {
 // PHPなどのsleepと同じ。UI表示調整用
 export function sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+export function checkVersion() {
+    const intervalTime = 1800000; // 30min
+    let version: undefined | string;
+    setInterval(async ()=> {
+        try {
+            const url = '/api/version';
+            const result = (await axios.get<{ version: string; }>(url, { timeout: 60000 })).data;
+            if (version === undefined) {
+                version = result.version;
+            }
+            if (version !== result.version) {
+                location.reload();
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }, intervalTime);
 }

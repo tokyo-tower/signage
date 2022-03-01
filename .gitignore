@@ -12,3 +12,5 @@ yarn-error.log*
 *.njsproj
 *.sln
 ssl/
+
+env*bat
