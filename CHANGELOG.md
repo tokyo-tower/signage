@@ -4,15 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## Unreleased
+
 ### Added
 
 ### Changed
 
-- @cinerino/sdkへの依存を排除
-
 ### Fixed
 
 ### Security
+
+## 2.0.0 - 2022-03-01
+
+### Changed
+
+- @cinerino/sdkへの依存を排除
 
 ## 1.4.0 - 2020-03-08
 ### Changed
