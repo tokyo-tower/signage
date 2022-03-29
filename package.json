@@ -30,12 +30,14 @@
         "version": "git add -A"
     },
     "dependencies": {
+        "@types/deep-diff": "^1.0.1",
         "apng-js": "^1.0.4",
         "axios": "^0.21.1",
         "basic-auth": "^2.0.1",
         "body-parser": "^1.19.0",
         "compression": "^1.7.4",
         "debug": "^4.3.1",
+        "deep-diff": "^1.0.2",
         "es6-promise": "4.2.4",
         "express": "^4.17.1",
         "helmet": "^4.4.1",

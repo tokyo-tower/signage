@@ -68,6 +68,7 @@ router.get('/config', (_req, res) => {
         CHANGE_SCALE: process.env.CHANGE_SCALE,
         PROJECT_ID: process.env.PROJECT_ID,
         SMART_THEATER_API_ENDPOINT: process.env.SMART_THEATER_API_ENDPOINT,
+        BUILD_TIMESTAMP: process.env.BUILD_TIMESTAMP,
     })
 });
 

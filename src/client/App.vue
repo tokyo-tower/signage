@@ -11,11 +11,41 @@
 </template>
 
 <script lang="ts">
+import axios from 'axios';
+import { diff } from 'deep-diff';
 import Vue from 'vue';
+import { IAppConfig } from './store';
 
 export default Vue.extend({
     components: {
         Loading: require('./components/Loading.vue').default,
+    },
+    methods: {
+        async fetchEnv(): Promise<IAppConfig> {
+            const env: IAppConfig = (await axios.get(`/api/config?${Date.now()}`)).data;
+            if (typeof env !== 'object') {
+                throw new Error('/env invalid respoponse');
+            }
+            return env;
+        },
+        async checkEnv(): Promise<void> {
+            console.log('checkEnv()');
+            try {
+                const latestEnv = await this.fetchEnv();
+                if (diff(this.$store.state.APPCONFIG, latestEnv)) {
+                    console.log('latestEnv', this.$store.state.APPCONFIG, latestEnv);
+                    console.log('環境変数の変更を検知 (20秒後リロード)');
+                    await new Promise(resolve => setTimeout(resolve, 20000));
+                    window.location.reload();
+                }
+            } catch (e) {
+                const error = e;
+                console.log(`[${new Date().toLocaleString()}] 環境変数の確認に失敗 ${error.message}`);
+            }
+            setTimeout(() => {
+                this.checkEnv();
+            }, 300000);
+        },
     },
     computed: {
         verticalClassName() {
@@ -27,6 +57,11 @@ export default Vue.extend({
             }
             return 'vertical';
         },
+    },
+    mounted() {
+        setTimeout(() => {
+            this.checkEnv();
+        }, 300000);
     },
     beforeDestroy() {
         this.$store.commit('CLEAR_LOADINGMSG');
