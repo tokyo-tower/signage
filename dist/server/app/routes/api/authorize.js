@@ -67,7 +67,7 @@ router.post('/getToken', (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.json({ accessToken, expiryDate });
     }
     catch (error) {
-        base_1.errorProsess(res, error);
+        (0, base_1.errorProsess)(res, error);
     }
 }));
 exports.authorizeRouter = router;

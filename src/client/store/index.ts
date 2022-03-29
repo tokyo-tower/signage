@@ -12,6 +12,7 @@ export interface IAppConfig {
     ENV?: 'development' | 'test' | 'production';
     CHANGE_SCALE?: 'auto';
     PROJECT_ID?: string;
+    BUILD_TIMESTAMP?: string;
 }
 
 export interface IState {

@@ -23,5 +23,5 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(compression());
 app.use(express.static(`${__dirname}/../../../public`));
 app.use(express.static(`${__dirname}/../../client`, { index: false }));
-router_1.default(app);
+(0, router_1.default)(app);
 module.exports = app;

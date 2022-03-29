@@ -3,6 +3,7 @@ import * as moment from "moment";
 import { IAppConfig } from "../store";
 import { sleep } from "./util";
 import { getCredentials } from "./authorize";
+import { diff } from 'deep-diff';
 
 // パフォーマンス情報を見てCSSクラス付与
 const STATUS_THRESHOLD_CROWDED = 38; // 38未満なら△
@@ -235,3 +236,39 @@ export function performance2result(event: IEvent): IPerformance {
         onlineSalesStatus: event.attributes.online_sales_status
     };
 }
+
+// 環境変数をサーバから得る
+const fetchEnv = async (): Promise<IAppConfig> => {
+    const env: IAppConfig = (await axios.get(`/env?${Date.now()}`)).data;
+    if (typeof env !== 'object') {
+        throw new Error('/env invalid respoponse');
+    }
+    return env;
+};
+
+export const checkEnv = async(store: any): Promise<void> => {
+    const limit = 5;
+    let count = 0;
+    let loop = true;
+    while (loop) {
+        loop = false;
+        try {
+            const latestEnv = await fetchEnv();
+            if (diff(store.state.APPCONFIG, latestEnv)) {
+                console.log(`環境変数の変更を検知 (20秒後リロード)`);
+                await sleep(20000);
+                return window.location.reload();
+            }
+        } catch (e) {
+            const error = e as any;
+            if (count < limit) {
+                loop = true;
+                count++;
+                await sleep(5000);
+                continue;
+            }
+            console.log(`[${new Date().toLocaleString()}] 環境変数の確認に失敗 ${error.message}`);
+        }
+    }
+    return;
+};
