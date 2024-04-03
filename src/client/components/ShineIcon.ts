@@ -104,7 +104,7 @@ export default Vue.extend({
       }
       return this.loadAPNG()
         .then(() => {
-          if (this.targetEvent) {
+          if (this.targetEvent && this.$parent) {
             this.$parent.$on(this.targetEvent, this.playAPNG);
           } else {
             (<Player>this.ctxplayer).on("end", () => {
@@ -135,6 +135,8 @@ export default Vue.extend({
     if (this.timeout_play !== null) {
       clearTimeout(this.timeout_play);
     }
-    this.$parent.$off(this.targetEvent, this.playAPNG);
+    if(this.$parent) {
+      this.$parent.$off(this.targetEvent, this.playAPNG);
+    }
   },
 });

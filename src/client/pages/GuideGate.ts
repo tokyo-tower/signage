@@ -24,6 +24,10 @@ export default Vue.extend({
                     ja: "入場用QRコードを準備してお待ち下さい",
                     en: "Please prepare to show your QR code for entrance.",
                 },
+                entranceTimeInfomation: {
+                    ja: "%time%までのお客様はご入場いただけます。",
+                    en: "This line is for the tickets before %time%.",
+                }
             },
             currentPerformanceArray: <{
                 id: string;
@@ -64,7 +68,7 @@ export default Vue.extend({
                     ).filter((pf) => {
                         return moment().isBetween(
                             moment(pf.startDate),
-                            moment(pf.endDate).add(5, "minute")
+                            moment(pf.endDate)
                         );
                     });
                 } catch (e) {

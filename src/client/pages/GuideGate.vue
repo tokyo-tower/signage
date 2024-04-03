@@ -50,6 +50,12 @@
           </tr>
         </tbody>
         <tfoot>
+          <tr
+            v-for="(currentPerformance, index) in currentPerformanceArray" v-if="index === currentPerformanceArray.length - 1"
+            :key="index"
+          >
+            <td colspan="2">{{ locale.entranceTimeInfomation[currentLang].replace('%time%', currentPerformance.end_time) }}</td>
+          </tr>
           <tr>
             <td colspan="2">{{ locale.pleasePrepare[currentLang] }}</td>
           </tr>
@@ -149,7 +155,7 @@ header {
     th:first-child,
     td:first-child {
       border-right: 1px solid #686866;
-      width: 36%;
+      width: 28%;
     }
   }
   thead {
@@ -169,7 +175,7 @@ header {
       font-size: 192px; // 10vw;
     }
     td:last-child {
-      font-size: 136px; // 7vw;
+      font-size: 172px; // 7vw;
     }
   }
   tfoot {
@@ -177,6 +183,9 @@ header {
     background-color: #e8e8e8;
     height: 100px;
     text-align: center;
+    tr:first-child {
+      color: #F00;
+    }
     td {
       font-size: 54px; // 2.8vw;
       line-height: 1.8;
