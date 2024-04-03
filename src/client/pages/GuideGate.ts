@@ -61,11 +61,7 @@ export default Vue.extend({
                         day: moment().minute(0).second(0).milliseconds(0).format('YYYYMMDD'),
                     });
                     this.currentPerformanceArray = this.manipulateScheduleData(
-                        scheduleArray,
-                        {
-                            setGateEndTime: true,
-                        }
-                    ).filter((pf) => {
+                        scheduleArray).filter((pf) => {
                         return moment().isBetween(
                             moment(pf.startDate),
                             moment(pf.endDate)

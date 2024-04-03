@@ -170,7 +170,6 @@ export async function fetchScheduleStatus(
 // APIのレスポンスを整形
 export function manipulateScheduleData(
     scheduleArray: IPerformance[],
-    options?: { setGateEndTime: boolean }
 ) {
     if (!Array.isArray(scheduleArray)) {
         return [];
@@ -178,9 +177,6 @@ export function manipulateScheduleData(
     return scheduleArray.map(schedule => {
         const moment_startDate = moment(schedule.startDate);
         const moment_endDate = moment(schedule.endDate);
-        if (options !== undefined && options.setGateEndTime) {
-            moment_endDate.add(5, "minute");
-        }
         return {
             id: schedule.id,
             day: moment_startDate.format("YYYYMMDD"),
