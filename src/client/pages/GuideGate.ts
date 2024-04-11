@@ -25,7 +25,7 @@ export default Vue.extend({
                     en: "Please prepare to show your QR code for entrance.",
                 },
                 entranceTimeInfomation: {
-                    ja: "%time%までのお客様はご入場いただけます。",
+                    ja: "%time%までのチケットをお持ちのお客様を順次ご案内しております。",
                     en: "This line is for the tickets before %time%.",
                 }
             },
