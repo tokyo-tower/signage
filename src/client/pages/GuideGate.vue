@@ -183,9 +183,6 @@ header {
     background-color: #e8e8e8;
     height: 100px;
     text-align: center;
-    tr:first-child {
-      color: #F00;
-    }
     td {
       font-size: 54px; // 2.8vw;
       line-height: 1.8;
